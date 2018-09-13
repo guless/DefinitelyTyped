@@ -211,15 +211,89 @@ declare function getCurrentPages(): Array<WXPage>;
 /// ================================================================================
 /*< 微信小程序 API >*/
 /// ================================================================================
+/**
+ * @see https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/api.html
+ */
+interface WXAsyncAPICallBackOptions {
+    success?: ( response: WXAsyncAPIResponse ) => void;
+    fail?: ( response: WXAsyncAPIResponse ) => void;
+    complete?: ( response: WXAsyncAPIResponse ) => void;
+}
+
+/**
+ * @see https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/api.html
+ */
+interface WXAsyncAPIResponse {
+    errMsg: string;
+    errCode?: number;
+}
+
+/**
+ * @see https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers
+ */
+interface WXRequestHeaders {
+    [ name: string ]: string;
+}
+
+/**
+ * @see https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers
+ */
+interface WXResponseHeaders {
+    [ name: string ]: string;
+}
+
+/**
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+ */
+type WXRequestMethods = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+
+/**
+ * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
+ */
+type WXResponseDataType = "json" | string;
+
+/**
+ * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
+ */
+type WXResponseType = "text" | "arraybuffer";
+
+/**
+ * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
+ */
+interface WXRequestOptions extends WXAsyncAPICallBackOptions {
+    url: string; 
+    data?: object | string | ArrayBuffer; 
+    header?: WXRequestHeaders; 
+    method: WXRequestMethods;
+    dataType: WXResponseDataType;
+    responseType: WXResponseType;
+}
+
+/**
+ * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
+ */
+interface TaskAsync {
+    abort(): void;
+}
+
+/**
+ * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.html
+ */
+interface TaskRequest extends TaskAsync {}
+
+/**
+ * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
+ */
 interface WXAPI {
     /** 网络 */
-    
-    
-    
+    request( options: WXRequestOptions ): TaskRequest;
 }
 /// ================================================================================
 /*< 微信小游戏 API >*/
 /// ================================================================================
+/**
+ * @see https://developers.weixin.qq.com/minigame/dev/api/render/canvas/wx.createCanvas.html
+ */
 interface WXAPI {
     
     
@@ -230,7 +304,7 @@ interface WXAPI {
  * @see https://developers.weixin.qq.com/miniprogram/dev/api/
  */
 declare var wx: WXAPI;
-// "invokeWebviewMethod|drawCanvas|createContext|createCanvasContext|canvasToTempFilePath|canvasGetImageData|canvasPutImageData|getAccountInfoSync|getShareInfo|pageScrollTo|chooseInvoiceTitle|arrayBufferToBase64|base64ToArrayBuffer|openSetting|getExtConfig|chooseMedia|chooseWeChatContact|uploadEncryptedFileToCDN|onUploadEncryptedFileToCDNProgress|getExtConfigSync|showShareMenu|hideShareMenu|updateShareMenu|openUrl|setNavigationBarColor|setNavigationBarAlpha|vibrateShort|vibrateLong|getSetting|checkIsSupportFacialRecognition|startFacialRecognitionVerify|startFacialRecognitionVerifyAndUploadVideo|sendBizRedPacket|sendGoldenRedPacket|openGoldenRedPacketDetail|addPhoneContact|setScreenBrightness|getScreenBrightness|getWeRunData|uploadWeRunData|addWeRunData|canIUse|setPageStyle|triggerGettingWidgetData|navigateToMiniProgram|navigateToDevMiniProgram|navigateBackMiniProgram|setNavigationBarRightButton|onTapNavigationBarRightButton|setTopBarText|setTabBarBadge|removeTabBarBadge|showTabBarRedDot|hideTabBarRedDot|showTabBar|hideTabBar|setTabBarStyle|setTabBarItem|setBackgroundColor|setBackgroundTextStyle|setEnableDebug|captureScreen|onUserCaptureScreen|setKeepScreenOn|checkIsSupportSoterAuthentication|startSoterAuthentication|checkIsSoterEnrolledInDevice|openDeliveryList|reportIDKey|reportKeyValue|setNavigationBarTitle|showNavigationBarLoading|hideNavigationBarLoading|startPullDownRefresh|stopPullDownRefresh|operateWXData|getOpenDeviceId|getMenuButtonBoundingClientRect|openBluetoothAdapter|closeBluetoothAdapter|getBluetoothAdapterState|onBluetoothAdapterStateChange|startBluetoothDevicesDiscovery|stopBluetoothDevicesDiscovery|getBluetoothDevices|getConnectedBluetoothDevices|createBLEConnection|closeBLEConnection|getBLEDeviceServices|getBLEDeviceCharacteristics|notifyBLECharacteristicValueChanged|notifyBLECharacteristicValueChange|readBLECharacteristicValue|writeBLECharacteristicValue|onBluetoothDeviceFound|onBLEConnectionStateChanged|onBLEConnectionStateChange|onBLECharacteristicValueChange|startBeaconDiscovery|stopBeaconDiscovery|getBeacons|onBeaconUpdate|onBeaconServiceChange|startWifi|stopWifi|getWifiList|getConnectedWifi|connectWifi|presetWifiList|setWifiList|onGetWifiList|onWifiConnected|onEvaluateWifi|getHCEState|startHCE|stopHCE|sendHCEMessage|onHCEMessage|redirectTo|reLaunch|navigateTo|switchTab|navigateBack|onAppShow|offAppShow|onAppHide|offAppHide|onError|offError|getLaunchOptionsSync|getStorage|getStorageSync|setStorage|setStorageSync|removeStorage|removeStorageSync|clearStorage|clearStorageSync|getStorageInfo|getStorageInfoSync|request|connectSocket|closeSocket|sendSocketMessage|onSocketOpen|onSocketClose|onSocketMessage|onSocketError|uploadFile|downloadFile|addNativeDownloadTask|calRqt|chooseImage|previewImage|getImageInfo|saveImageToPhotosAlbum|startRecord|stopRecord|playVoice|pauseVoice|stopVoice|onVoicePlayEnd|chooseVideo|saveVideoToPhotosAlbum|loadFontFace|getLocation|openLocation|chooseLocation|startLocationUpdate|stopLocationUpdate|onLocationChange|getNetworkType|onNetworkStatusChange|getSystemInfo|getSystemInfoSync|getBatteryInfo|getBatteryInfoSync|startAccelerometer|stopAccelerometer|onAccelerometerChange|startCompass|stopCompass|onCompassChange|reportAction|getBackgroundAudioManager|getRecorderManager|getBackgroundAudioPlayerState|playBackgroundAudio|pauseBackgroundAudio|seekBackgroundAudio|stopBackgroundAudio|onBackgroundAudioPlay|onBackgroundAudioPause|onBackgroundAudioStop|login|checkSession|authorize|getUserInfo|requestPayment|verifyPaymentPassword|bindPaymentCard|requestPaymentToBank|requestVirtualPayment|openOfflinePayView|openWCPayCardList|requestMallPayment|addCard|openCard|scanCode|openQRCode|chooseAddress|saveFile|openDocument|getSavedFileList|getSavedFileInfo|getFileInfo|removeSavedFile|getFileSystemManager|chooseContact|removeUserCloudStorage|setUserCloudStorage|makePhoneCall|makeVoIPCall|onAppRoute|onAppRouteDone|onAppEnterBackground|onAppEnterForeground|onAppUnhang|onPageReload|onPageNotFound|offPageNotFound|createAnimation|createInnerAudioContext|getAvailableAudioSources|createAudioContext|createVideoContext|createMapContext|createCameraContext|createLivePlayerContext|createLivePusherContext|onWebviewEvent|onNativeEvent|hideKeyboard|getPublicLibVersion|showModal|showToast|hideToast|showLoading|hideLoading|showActionSheet|reportAnalytics|reportMonitor|getClipboardData|setClipboardData|createSelectorQuery|createIntersectionObserver|nextTick|updatePerfData|traceEvent|onMemoryWarning|getUpdateManager|createWorker|voiceSplitJoint|uploadSilkVoice|downloadSilkVoice|getResPath|setResPath|env|getLogManager|cloud|version"
+// "invokeWebviewMethod|drawCanvas|createContext|createCanvasContext|canvasToTempFilePath|canvasGetImageData|canvasPutImageData|getAccountInfoSync|getShareInfo|pageScrollTo|chooseInvoiceTitle|arrayBufferToBase64|base64ToArrayBuffer|openSetting|getExtConfig|chooseMedia|chooseWeChatContact|uploadEncryptedFileToCDN|onUploadEncryptedFileToCDNProgress|getExtConfigSync|showShareMenu|hideShareMenu|updateShareMenu|openUrl|setNavigationBarColor|setNavigationBarAlpha|vibrateShort|vibrateLong|getSetting|checkIsSupportFacialRecognition|startFacialRecognitionVerify|startFacialRecognitionVerifyAndUploadVideo|sendBizRedPacket|sendGoldenRedPacket|openGoldenRedPacketDetail|addPhoneContact|setScreenBrightness|getScreenBrightness|getWeRunData|uploadWeRunData|addWeRunData|canIUse|setPageStyle|triggerGettingWidgetData|navigateToMiniProgram|navigateToDevMiniProgram|navigateBackMiniProgram|setNavigationBarRightButton|onTapNavigationBarRightButton|setTopBarText|setTabBarBadge|removeTabBarBadge|showTabBarRedDot|hideTabBarRedDot|showTabBar|hideTabBar|setTabBarStyle|setTabBarItem|setBackgroundColor|setBackgroundTextStyle|setEnableDebug|captureScreen|onUserCaptureScreen|setKeepScreenOn|checkIsSupportSoterAuthentication|startSoterAuthentication|checkIsSoterEnrolledInDevice|openDeliveryList|reportIDKey|reportKeyValue|setNavigationBarTitle|showNavigationBarLoading|hideNavigationBarLoading|startPullDownRefresh|stopPullDownRefresh|operateWXData|getOpenDeviceId|getMenuButtonBoundingClientRect|openBluetoothAdapter|closeBluetoothAdapter|getBluetoothAdapterState|onBluetoothAdapterStateChange|startBluetoothDevicesDiscovery|stopBluetoothDevicesDiscovery|getBluetoothDevices|getConnectedBluetoothDevices|createBLEConnection|closeBLEConnection|getBLEDeviceServices|getBLEDeviceCharacteristics|notifyBLECharacteristicValueChanged|notifyBLECharacteristicValueChange|readBLECharacteristicValue|writeBLECharacteristicValue|onBluetoothDeviceFound|onBLEConnectionStateChanged|onBLEConnectionStateChange|onBLECharacteristicValueChange|startBeaconDiscovery|stopBeaconDiscovery|getBeacons|onBeaconUpdate|onBeaconServiceChange|startWifi|stopWifi|getWifiList|getConnectedWifi|connectWifi|presetWifiList|setWifiList|onGetWifiList|onWifiConnected|onEvaluateWifi|getHCEState|startHCE|stopHCE|sendHCEMessage|onHCEMessage|redirectTo|reLaunch|navigateTo|switchTab|navigateBack|onAppShow|offAppShow|onAppHide|offAppHide|onError|offError|getLaunchOptionsSync|getStorage|getStorageSync|setStorage|setStorageSync|removeStorage|removeStorageSync|clearStorage|clearStorageSync|getStorageInfo|getStorageInfoSync|connectSocket|closeSocket|sendSocketMessage|onSocketOpen|onSocketClose|onSocketMessage|onSocketError|uploadFile|downloadFile|addNativeDownloadTask|calRqt|chooseImage|previewImage|getImageInfo|saveImageToPhotosAlbum|startRecord|stopRecord|playVoice|pauseVoice|stopVoice|onVoicePlayEnd|chooseVideo|saveVideoToPhotosAlbum|loadFontFace|getLocation|openLocation|chooseLocation|startLocationUpdate|stopLocationUpdate|onLocationChange|getNetworkType|onNetworkStatusChange|getSystemInfo|getSystemInfoSync|getBatteryInfo|getBatteryInfoSync|startAccelerometer|stopAccelerometer|onAccelerometerChange|startCompass|stopCompass|onCompassChange|reportAction|getBackgroundAudioManager|getRecorderManager|getBackgroundAudioPlayerState|playBackgroundAudio|pauseBackgroundAudio|seekBackgroundAudio|stopBackgroundAudio|onBackgroundAudioPlay|onBackgroundAudioPause|onBackgroundAudioStop|login|checkSession|authorize|getUserInfo|requestPayment|verifyPaymentPassword|bindPaymentCard|requestPaymentToBank|requestVirtualPayment|openOfflinePayView|openWCPayCardList|requestMallPayment|addCard|openCard|scanCode|openQRCode|chooseAddress|saveFile|openDocument|getSavedFileList|getSavedFileInfo|getFileInfo|removeSavedFile|getFileSystemManager|chooseContact|removeUserCloudStorage|setUserCloudStorage|makePhoneCall|makeVoIPCall|onAppRoute|onAppRouteDone|onAppEnterBackground|onAppEnterForeground|onAppUnhang|onPageReload|onPageNotFound|offPageNotFound|createAnimation|createInnerAudioContext|getAvailableAudioSources|createAudioContext|createVideoContext|createMapContext|createCameraContext|createLivePlayerContext|createLivePusherContext|onWebviewEvent|onNativeEvent|hideKeyboard|getPublicLibVersion|showModal|showToast|hideToast|showLoading|hideLoading|showActionSheet|reportAnalytics|reportMonitor|getClipboardData|setClipboardData|createSelectorQuery|createIntersectionObserver|nextTick|updatePerfData|traceEvent|onMemoryWarning|getUpdateManager|createWorker|voiceSplitJoint|uploadSilkVoice|downloadSilkVoice|getResPath|setResPath|env|getLogManager|cloud|version"
 // 0 addCard 批量添加卡券。
 // 1 addPhoneContact 调用后，用户可以选择将该表单以“新增联系人”或“添加到已有联系人”的方式，写入手机系统通讯录，完成手机通讯录联系人和联系方式的增加。
 // 2 arrayBufferToBase64 将 ArrayBuffer 数据转成 Base64 字符串
@@ -356,7 +430,7 @@ declare var wx: WXAPI;
 // 122 removeStorageSync 从本地缓存中同步移除指定 key 。
 // 123 removeTabBarBadge 移除 tabBar 某一项右上角的文本
 // 124 reportAnalytics 自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
-// 125 request 发起网络请求。**使用前请先阅读[说明](./api-network.md)**。
+
 // 126 requestPayment 发起微信支付。
 // 127 saveFile 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
 // 128 saveImageToPhotosAlbum 保存图片到系统相册。需要[用户授权](./authorize-index.md) scope.writePhotosAlbum
